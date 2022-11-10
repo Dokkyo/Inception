@@ -1,5 +1,5 @@
-FROM alpine:3.16.2
-WORKDIR .
+FROM alpine:3.15
+
 RUN apk update \
     &&  mkdir -p /usr/share/webapps/ \
     && cd /usr/share/webapps/ \
