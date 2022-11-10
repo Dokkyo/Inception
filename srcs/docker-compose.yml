@@ -1,4 +1,4 @@
-version: "2.10.2"
+version: "2.12"
 
 services:
 
@@ -16,19 +16,19 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
-    restart: "on-failure"
+    restart: ""
 
   # wordpress:
 
   #   build:
   #     context: ./requirements/wordpress
 
-  # nginx:
+  nginx:
 
-  #   build: 
-  #     context: ./requirements/nginx/
+    build: 
+      context: ./requirements/nginx/
 
-  #   ports: 
-  #     - "8080:80"
+    ports: 
+      - "8080:80"
 
-  #   restart: "on-failure"
+    restart: ""

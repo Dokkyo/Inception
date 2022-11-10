@@ -1,10 +1,6 @@
-FROM alpine:3.16.2
+FROM alpine:3.15
 
-WORKDIR .
-
-RUN apk add openrc
-
-VOLUME /sys/fs/cgroup
+EXPOSE 80
 
 #COPY conf/default.conf /etc/nginx/conf.d
 
@@ -15,11 +11,6 @@ RUN apk update \
     && curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
     && openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout \
     && mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/ \
-    && apk add nginx@nginx \
-    && openrc \
-    && touch /run/openrc/softlevel
-#    && rc-service nginx start
+    && apk add nginx@nginx
 
-#CMD [ "rc-service", "nginx", "start" ]
-
-EXPOSE 80 9000
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
