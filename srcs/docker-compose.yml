@@ -1,6 +1,8 @@
-version: "2.12"
+version: "2.10.2"
 
 services:
+
+  env_file : .env
 
   mariadb:
 
@@ -10,25 +12,45 @@ services:
     volumes:
       - ./requirements/mariadb/data/mysql:/var/lib/mysql
 
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306"
 
-    restart: ""
+    networks:
+      - inception
 
-  # wordpress:
-
-  #   build:
-  #     context: ./requirements/wordpress
+    restart: "always"
 
   nginx:
 
     build: 
       context: ./requirements/nginx/
 
-    ports: 
-      - "8080:80"
+      depends_on:
+        - wordpress
 
-    restart: ""
+    ports: 
+      - "443"
+    
+    networks:
+      - inception
+
+    restart: "always"
+  
+  wordpress:
+
+    build:
+      context: ./requirements/wordpress
+    
+    depends_on:
+      - mariadb
+    
+    ports:
+      - "9000"
+
+    networks:
+      - inception
+
+    restart: "always"
+
+  networks:
+    inception:

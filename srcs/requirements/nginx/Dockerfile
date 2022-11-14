@@ -1,9 +1,5 @@
 FROM alpine:3.15
 
-EXPOSE 80
-
-#COPY conf/default.conf /etc/nginx/conf.d
-
 RUN apk update \
     && apk add vim \
     && apk add openssl curl ca-certificates \
@@ -12,5 +8,11 @@ RUN apk update \
     && openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout \
     && mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/ \
     && apk add nginx@nginx
+
+
+
+COPY conf/default.conf /etc/nginx/conf.d
+
+EXPOSE 80
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
