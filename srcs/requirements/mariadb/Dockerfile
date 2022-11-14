@@ -7,6 +7,7 @@ RUN apk update \
     && openrc \
     && touch /run/openrc/softlevel \
     && /etc/init.d/mariadb setup \
-    && service mariadb start 
+    && service mariadb start \
+
 
 EXPOSE 3306
