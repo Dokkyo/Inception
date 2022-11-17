@@ -7,12 +7,14 @@ RUN apk update \
     && openrc \
     && touch /run/openrc/softlevel \
     && /etc/init.d/mariadb setup \
-    && service mariadb start \
-    && mysql -e "CREATE USER 'naben-za'@'%' IDENTIFIED BY 'qwerty';" \
-    && mysql -e "GRANT ALL PRIVILEGES ON * . * TO 'naben-za'@'%';" \
-    && mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'qwerty';" \
-    && mysql -uroot --password=qwerty -e "FLUSH PRIVILEGES;"
+    && service mariadb start
 
-#CMD ["mysql"]
+COPY mariadb-server.cnf /etc/my.cnf.d/
+
+RUN chmod 644 /etc/my.cnf.d/mariadb-server.cnf
+
+COPY init.sql /etc/mysql/
 
 EXPOSE 3306
+
+CMD ["mysqld","-uroot","--init-file=/etc/mysql/init.sql"]

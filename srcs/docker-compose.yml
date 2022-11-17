@@ -9,6 +9,7 @@ services:
         MB_ADMIN_USER: ${MB_ADMIN_USER}
         MB_ADMIN_PASSWORD: ${MB_ADMIN_PASSWORD}
         MB_ROOT_PASSWORD: ${MB_ROOT_PASSWORD}
+    container_name: mariadb
     volumes:
       - mdb:/var/lib/mysql
     expose:
@@ -22,10 +23,11 @@ services:
   nginx:
     build: 
       context: ./requirements/nginx/
+    container_name: nginx
     depends_on:
       - wordpress
     ports: 
-      - "443:443"
+      - "8080:80"
     networks:
       - inception
     restart: "always"
@@ -37,6 +39,7 @@ services:
   wordpress:
     build:
       context: ./requirements/wordpress
+    container_name: wordpress
     depends_on:
       - mariadb
     expose:
