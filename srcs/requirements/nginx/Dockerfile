@@ -9,10 +9,8 @@ RUN apk update \
     && mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/ \
     && apk add nginx@nginx
 
-
-
 COPY conf/default.conf /etc/nginx/conf.d
 
 EXPOSE 80
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
