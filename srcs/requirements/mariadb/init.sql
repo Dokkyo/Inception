@@ -1,6 +1,6 @@
 CREATE DATABASE wp_base;
 DROP USER ''@'localhost';
-CREATE USER 'naben-za'@'localhost' IDENTIFIED BY 'qwerty';
+CREATE USER 'naben-za'@'wordpress.srcs_inception' IDENTIFIED BY 'qwerty';
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'qwerty';
-GRANT ALL PRIVILEGES ON *.* TO 'naben-za'@'localhost';
+GRANT ALL PRIVILEGES ON *.* TO 'naben-za'@'wordpress.srcs_inception';
 FLUSH PRIVILEGES;

@@ -7,10 +7,14 @@ RUN apk update \
     && curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
     && openssl rsa -pubin -in /tmp/nginx_signing.rsa.pub -text -noout \
     && mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/ \
-    && apk add nginx@nginx
+    && apk add nginx@nginx \
+    && openssl req -x509 -nodes \
+        -keyout /etc/nginx/naben-za.42.fr.key \
+        -out /etc/nginx/naben-za.42.fr.crt \
+        -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=E3/CN=naben-za.42.fr/UID=naben-za"
 
 COPY conf/default.conf /etc/nginx/conf.d
 
-EXPOSE 80
+EXPOSE 443
 
 CMD ["nginx", "-g", "daemon off;"]
